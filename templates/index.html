@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+        <title>HOMO-LUMO Energy Gap Prediction</title>
+  </head>
+  <body>
+    <h3 align=center> HOMO-LUMO Energy Gap Prediction</h3>
+    <div class= "container">
+    <img src="{{ url_for('static', filename='images/HOMO_LUMO.jpg') }}" width ="100%", height="auto" alt="HOMO-LUMO of  ethene">
+    <img src="data:image/png;base64,{{ plot }}" alt="Matplotlib Plot"width ="100%", height="auto">
+
+    <h3 style = "background-color:yellow">Enter SMILES or few SMILES in single or double quations separated by comma such as ["CCC","CCO"] :</h3>
+    <form method="POST" enctype="multipart/form-data",class="container mt-5">
+      <div class="form-group">
+        <input type="text" name="text_input"  class="form-control" value={{text_input}} >
+      </div>
+      <div class="form-group">
+        <label for="file" style="background-color:yellow">Upload CSV file:</label>
+        <br/>
+        <input type="file" name="csv_file" accept=".csv">
+      </div>
+        <br/>
+        <button type="submit" class="btn btn-primary btn-lg"" value="Predict">Predict</button>
+    </form>
+<hr>
+<h2 style="color:green">See the Results Below:</h2>
+<hr>
+   {% if df1 is not none %}
+    {{ df1.to_html() | safe }}
+    {% endif %}
+    <br/>
+    
+    {%if filedownload(df1,"predicted_HOMO-LUMO energygap.csv") is not none %}
+    {{ filedownload(df1,"predicted_HOMO-LUMO energygap.csv") | safe }}
+    {%endif%}
+    <br/>
+    <br/>
+    {% if textbox_img is not none %}
+    <h2>Structure/s:</h2>
+    {{ textbox_img | safe }}
+    {% endif %}
+    
+    <br/>
+
+    {% if df3 is not none %}
+    {{ df3.to_html() | safe }}
+    {% endif %}
+    
+    <br/>
+    {%if filedownload(df3,"predicted_HOMO-LUMO energygap.csv") is not none %}
+    {{ filedownload(df3,"predicted_HOMO-LUMO energygap.csv") | safe }}
+    {% endif %}
+    <br/>
+    <br/>
+    {% if file_imgs is not none %}
+    <h3 >Structures from CSV file:</h3>
+    {{ file_imgs | safe }}
+    {% endif %}
+  </div>
+ 
+</body>   
+</html>
